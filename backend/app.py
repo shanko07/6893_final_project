@@ -1,5 +1,3 @@
-import secrets
-
 from flask import Flask, render_template
 from flask import Response
 
@@ -7,14 +5,13 @@ app = Flask(__name__)
 
 from flask import request
 
-import pymongo
 import json
 import requests
 
 ### API STUFF
 
 @app.route('/api/v1/predictsale', methods=['GET'])
-def api_organization():
+def api_predictsale():
     if request.method == 'GET':
         param_names = ['BOROUGH',
                   'NEIGHBORHOOD',
@@ -42,20 +39,23 @@ def api_organization():
 
 
 @app.route('/api/v1/summarize', methods=['GET'])
-def api_event():
+def api_summarize():
     if request.method == 'GET':
 
+        # selection of columns or data dimensions
         request.json['groupby']
+        # filter criteria
         request.json['filter']
+        # select which data columns you want to have
         request.json['select']
 
-        return Response(json.dumps({'events': get_events(request.json['orgName'])}), status=200, mimetype='application/json')
+        return Response(json.dumps({'data': [{'BOROUGH': 'manhattan', 'SALE_PRICE': 500000}, {'BOROUGH': 'brooklyn', 'SALE_PRICE': 400000},]}), status=200, mimetype='application/json')
     else:
         return Response("{'reason':'illegal method for call'}", status=404, mimetype='application/json')
 
 
 @app.route('/api/v1/trends', methods=['GET'])
-def api_event():
+def api_trends():
     if request.method == 'GET':
 
         # specify how you want to summarize "sum, mean, mode, min, max"
@@ -67,7 +67,7 @@ def api_event():
         # should be in the following format xd, xw, xm, xy where x is a number and we have days, weeks, months, years
         request.json['frequency']
 
-        return Response(json.dumps({'events': get_events(request.json['orgName'])}), status=200,
+        return Response(json.dumps({'data': [{'SALE_PRICE': 500000}, {'SALE_PRICE': 600000}, {'SALE_PRICE': 400000}, {'SALE_PRICE': 4500000}]}), status=200,
                         mimetype='application/json')
     else:
         return Response("{'reason':'illegal method for call'}", status=404, mimetype='application/json')
