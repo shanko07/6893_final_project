@@ -126,3 +126,6 @@ def get_event_details(orgName, eventName):
 
     return event_dict
 """
+
+if __name == '__main__':
+    app.run(debug=True, host='127.0.0.1')
