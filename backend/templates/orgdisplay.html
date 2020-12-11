@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ orgName }}</title>
+</head>
+<body>
+<ul>
+    {% for item in events %}
+        <li><a href="event?orgName={{ orgName }}&eventName={{ item['eventName'] }}">{{ item['eventName'] }}</a></li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ deets['eventName'] }} - {{ deets['orgName'] }}</title>
+</head>
+<body>
+<a href="organization?orgName={{ deets['orgName'] }}">{{ deets['orgName'] }}</a>
+<p>url: https://streamphl.stephenshanko.com:1936/input/</p>
+<p>key: {{ deets['key'] }}</p>
+<ul>
+    {% for item in deets['services'] %}
+        <li>{{ item }}</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
