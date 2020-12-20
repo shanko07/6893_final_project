@@ -11,6 +11,7 @@ import joblib
 import pickle
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
+import pymysql.cursors
 
 ### API STUFF
 
@@ -39,24 +40,46 @@ def api_predictsale():
             if k not in param_names:
                 return Response(json.dumps({'reason':f'illegal prediction param {k}'}), status=404, mimetype='application/json')
 
-        if len(params_supplied) != len(param_names):
-            return Response("{'reason':'missing some prediction params'}", status=404, mimetype='application/json')
-
-
 
         loaded_rf = joblib.load("whole_dataset.joblib")
         with open ('model_cols', 'rb') as fp:
             needed_cols = pickle.load(fp)
 
-        query_dict = {name:[params_supplied[name]] for name in param_names}
-
-        #query_dict = {'BOROUGH':[params_supplied['BOROUGH']],'BUILDING CLASS CATEGORY':[params_supplied['BUILDING CLASS CATEGORY']],'ZIP CODE':[params_supplied['ZIP CODE']],
-        #    'RESIDENTIAL_UNITS':[params_supplied['RESIDENTIAL_UNITS']],
-        #    'COMMERCIAL UNITS':[params_supplied[]],'TOTAL UNITS':[params_supplied[]],'LAND_SQUARE_FEET':[params_supplied[]],'GROSS_SQUARE_FEET':[params_supplied[]],
-        #    'YEAR BUILT':[params_supplied[]],'TAX CLASS AT TIME OF SALE':[params_supplied[]],'BUILDING CLASS AT TIME OF SALE':[params_supplied[]],'SALE DATE':[params_supplied[]]}
+        query_dict = {name:[params_supplied[name]] for name in params_supplied}
 
 
+        # use the database averages or modes to clean up any missing parameters for prediction
+        connection = pymysql.connect(
+                        host='6893.stephenshanko.com',
+                        user='db_reader',
+                        password='&3QTLyJo6jwA2,.1u{Zy',
+                        db='6893_project',
+                        charset='utf8mb4',
+                        cursorclass=pymysql.cursors.DictCursor)
 
+        try:
+            with connection.cursor() as cursor:
+                missing = set(param_names) - set(params_supplied.keys())
+                for name in missing:
+                    if name in ['BOROUGH', 'BUILDING CLASS CATEGORY', 'ZIP CODE','TAX CLASS AT TIME OF SALE', 'BUILDING CLASS AT TIME OF SALE']:
+                        # use the mode since these are categorical
+                        operator = name
+                        sql = f"select `{name}`, occurs from (select `{name}`, count(*) as occurs from Clean_Data group by `{name}` limit 1) t1"
+                    elif name == 'SALE DATE':
+                        operator = 'max'
+                        sql = f"select {operator}(`{name}`) as {operator} from Clean_Data"
+                    else:
+                        # use the average since these are continuous
+                        operator = 'avg'
+                        sql = f"select {operator}(`{name}`) as {operator} from Clean_Data"
+                    cursor.execute(sql)
+                    measure = cursor.fetchone()[operator]
+                    query_dict[name] = measure
+        finally:
+            connection.close()
+
+
+        # spin up the model and do prediction
         with open ('model_cols', 'rb') as fp:
             needed_cols = pickle.load(fp)
 
@@ -82,13 +105,8 @@ def api_predictsale():
         query_df.set_index('SALE DATE', inplace=True)
         query_df = pd.get_dummies(query_df, columns = ['Date'], prefix = 'Date')
 
-        # one_hots = ['BOROUGH','NEIGHBORHOOD','BUILDING CLASS CATEGORY','ZIP CODE','TAX CLASS AT TIME OF SALE','BUILDING CLASS AT TIME OF SALE']
         one_hots = ['BOROUGH','BUILDING CLASS CATEGORY','ZIP CODE','TAX CLASS AT TIME OF SALE','BUILDING CLASS AT TIME OF SALE']
         query_df = pd.get_dummies(query_df, columns = one_hots, prefix = one_hots)
-        # query_df.set_index('SALE DATE', inplace=True)
-        # date_range_sample = ['2003-01-01' , '2007-12-31']
-        # date_range_target = ['2008-01-01' , '2008-01-31']
-
 
 
         for col in needed_cols:
@@ -100,11 +118,6 @@ def api_predictsale():
 
         predicted_val = loaded_rf.predict(query_df.drop(columns =['SALE_PRICE']))
         print(predicted_val[0])
-
-
-
-        # TODO: find out if any params are missing from request and use summary stats to fill that missing data
-        # TODO: query the model with given params and filled missing data to obtain the predicted sale price
 
         return Response(json.dumps({'PRED_SALE_PRICE': predicted_val[0]}), status=200,
                             mimetype='application/json')
