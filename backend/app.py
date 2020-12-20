@@ -14,17 +14,10 @@ import requests
 def api_predictsale():
     if request.method == 'GET':
         param_names = ['BOROUGH',
-                  'NEIGHBORHOOD',
-                  'BUILDING_CLASS',
-                  'ZIP_CODE',
-                  'RESIDENTIAL_UNITS',
-                  'COMMERCIAL_UNITS',
-                  'TOTAL_UNITS',
-                  'LAND_SQUARE_FEET',
-                  'GROSS_SQUARE_FEET',
-                  'YEAR_BUILT', 'TAX_CLASS_AT_TIME_OF_SALE',
-                  'BUILDING_CLASS_AT_TIME_OF_SALE',
-                  'SALE_DATE'
+                       'BUILDING CLASS CATEGORY',
+                       'ZIP CODE',
+                       'TAX CLASS AT TIME OF SALE',
+                       'BUILDING CLASS AT TIME OF SALE'
                   ]
 
         # TODO: find out if any params are missing from request and use summary stats to fill that missing data
