@@ -1,9 +1,11 @@
-FROM python:rc-alpine
+FROM ubuntu:latest
+
+RUN apt update && apt install -y python3 python3-pip
 
 COPY app.py .
 
-RUN pip install requests flask
+RUN python3 -m pip install requests flask joblib pandas sklearn
 
-ENTRYPOINT [ "python" ]
+ENTRYPOINT [ "python3" ]
 
 CMD [ "app.py" ]

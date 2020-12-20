@@ -7,25 +7,106 @@ from flask import request
 
 import json
 import requests
+import joblib
+import pickle
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
 
 ### API STUFF
 
 @app.route('/api/v1/predictsale', methods=['GET'])
 def api_predictsale():
     if request.method == 'GET':
-        param_names = ['BOROUGH',
-                       'BUILDING CLASS CATEGORY',
-                       'ZIP CODE',
-                       'TAX CLASS AT TIME OF SALE',
-                       'BUILDING CLASS AT TIME OF SALE'
-                  ]
+
+        param_names = [
+            'BOROUGH',
+            'BUILDING CLASS CATEGORY',
+            'ZIP CODE',
+            'RESIDENTIAL_UNITS',
+            'COMMERCIAL UNITS',
+            'TOTAL UNITS',
+            'LAND_SQUARE_FEET',
+            'GROSS_SQUARE_FEET',
+            'YEAR BUILT',
+            'TAX CLASS AT TIME OF SALE',
+            'BUILDING CLASS AT TIME OF SALE',
+            'SALE DATE'
+        ]
+
+        params_supplied = request.json['params']
+
+        for k in params_supplied:
+            if k not in param_names:
+                return Response(json.dumps({'reason':f'illegal prediction param {k}'}), status=404, mimetype='application/json')
+
+        if len(params_supplied) != len(param_names):
+            return Response("{'reason':'missing some prediction params'}", status=404, mimetype='application/json')
+
+
+
+        loaded_rf = joblib.load("whole_dataset.joblib")
+        with open ('model_cols', 'rb') as fp:
+            needed_cols = pickle.load(fp)
+
+        query_dict = {name:[params_supplied[name]] for name in param_names}
+
+        #query_dict = {'BOROUGH':[params_supplied['BOROUGH']],'BUILDING CLASS CATEGORY':[params_supplied['BUILDING CLASS CATEGORY']],'ZIP CODE':[params_supplied['ZIP CODE']],
+        #    'RESIDENTIAL_UNITS':[params_supplied['RESIDENTIAL_UNITS']],
+        #    'COMMERCIAL UNITS':[params_supplied[]],'TOTAL UNITS':[params_supplied[]],'LAND_SQUARE_FEET':[params_supplied[]],'GROSS_SQUARE_FEET':[params_supplied[]],
+        #    'YEAR BUILT':[params_supplied[]],'TAX CLASS AT TIME OF SALE':[params_supplied[]],'BUILDING CLASS AT TIME OF SALE':[params_supplied[]],'SALE DATE':[params_supplied[]]}
+
+
+
+        with open ('model_cols', 'rb') as fp:
+            needed_cols = pickle.load(fp)
+
+
+        max_date = pd.to_datetime('2019-12-31 00:00:00')
+        query_df = pd.DataFrame.from_dict(query_dict)
+        query_df = query_df.astype({'RESIDENTIAL_UNITS':'int64'})
+        query_df = query_df.astype({'COMMERCIAL UNITS':'int64'})
+        query_df = query_df.astype({'TOTAL UNITS':'int64'})
+        query_df = query_df.astype({'LAND_SQUARE_FEET':'int64'})
+        query_df = query_df.astype({'GROSS_SQUARE_FEET':'int64'})
+        query_df = query_df.astype({'YEAR BUILT':'int64'})
+        query_df['Date'] = 0
+
+        query_df['SALE DATE'] = pd.to_datetime(query_df['SALE DATE'])
+
+        def month_distance(start, end):
+            mdiff = (end.year - start.year) * 12 + end.month - start.month
+            return mdiff
+
+        for i, row in query_df.iterrows():
+            query_df.at[i,'Date'] = month_distance(row['SALE DATE'],max_date)
+        query_df.set_index('SALE DATE', inplace=True)
+        query_df = pd.get_dummies(query_df, columns = ['Date'], prefix = 'Date')
+
+        # one_hots = ['BOROUGH','NEIGHBORHOOD','BUILDING CLASS CATEGORY','ZIP CODE','TAX CLASS AT TIME OF SALE','BUILDING CLASS AT TIME OF SALE']
+        one_hots = ['BOROUGH','BUILDING CLASS CATEGORY','ZIP CODE','TAX CLASS AT TIME OF SALE','BUILDING CLASS AT TIME OF SALE']
+        query_df = pd.get_dummies(query_df, columns = one_hots, prefix = one_hots)
+        # query_df.set_index('SALE DATE', inplace=True)
+        # date_range_sample = ['2003-01-01' , '2007-12-31']
+        # date_range_target = ['2008-01-01' , '2008-01-31']
+
+
+
+        for col in needed_cols:
+            if col not in query_df.columns:
+                query_df[col]=0
+
+        query_df = query_df.reindex(columns=needed_cols)
+
+
+        predicted_val = loaded_rf.predict(query_df.drop(columns =['SALE_PRICE']))
+        print(predicted_val[0])
+
+
 
         # TODO: find out if any params are missing from request and use summary stats to fill that missing data
         # TODO: query the model with given params and filled missing data to obtain the predicted sale price
 
-        pred = 500000
-
-        return Response(json.dumps({'PRED_SALE_PRICE': pred}), status=200,
+        return Response(json.dumps({'PRED_SALE_PRICE': predicted_val[0]}), status=200,
                             mimetype='application/json')
     else:
         return Response("{'reason':'illegal method for call'}", status=404, mimetype='application/json')
