@@ -12,6 +12,7 @@ import pickle
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 import pymysql.cursors
+from datetime import datetime
 
 ### API STUFF
 
@@ -77,7 +78,9 @@ def api_predictsale():
                     query_dict[name] = measure
         finally:
             connection.close()
-
+            
+        if type(query_dict['SALE DATE']) == datetime:
+            query_dict['SALE DATE'] = [query_dict['SALE DATE'].strftime("%m-%d-%Y %H:%M:%S")]
 
         # spin up the model and do prediction
         with open ('model_cols', 'rb') as fp:
