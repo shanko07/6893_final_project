@@ -1,0 +1,395 @@
+<!doctype html>
+<title>Countdown Creator</title>
+<p>Predicted sale price is {{ pred_price if pred_price else '' }}</p>
+<form method="post" id="prediction_form">
+  <label for="borough">Borough:</label>
+  <select id="borough" name="borough">
+    <option value="" {{ 'selected' if params['BOROUGH'] == '' else '' }}>None</option>
+    <option value="1" {{ 'selected' if params['BOROUGH'] == 1 else '' }}>MANHATTAN</option>
+    <option value="2" {{ 'selected' if params['BOROUGH'] == 2 else '' }}>BRONX</option>
+    <option value="3" {{ 'selected' if params['BOROUGH'] == 3 else '' }}>BROOKLYN</option>
+    <option value="4" {{ 'selected' if params['BOROUGH'] == 4 else '' }}>QUEENS</option>
+    <option value="5" {{ 'selected' if params['BOROUGH'] == 5 else '' }}>STATEN ISLAND</option>
+  </select><br><br>
+  <label for="bcc">Building Class Category:</label>
+  <select id="bcc" name="bcc">
+    <option value="" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '' else '' }}>None</option>
+    <option value="01  ONE FAMILY HOMES                        " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '01  ONE FAMILY HOMES                        ' else '' }}>01  ONE FAMILY HOMES                        </option>
+    <option value="02  TWO FAMILY HOMES                        " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '02  TWO FAMILY HOMES                        ' else '' }}>02  TWO FAMILY HOMES                        </option>
+    <option value="03  THREE FAMILY HOMES                      " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '03  THREE FAMILY HOMES                      ' else '' }}>03  THREE FAMILY HOMES                      </option>
+    <option value="07  RENTALS - WALKUP APARTMENTS             " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '07  RENTALS - WALKUP APARTMENTS             ' else '' }}>07  RENTALS - WALKUP APARTMENTS             </option>
+    <option value="22  STORE BUILDINGS                         " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '22  STORE BUILDINGS                         ' else '' }}>22  STORE BUILDINGS                         </option>
+    <option value="26  OTHER HOTELS                            " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '26  OTHER HOTELS                            ' else '' }}>26  OTHER HOTELS                            </option>
+    <option value="29  COMMERCIAL GARAGES                      " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '29  COMMERCIAL GARAGES                      ' else '' }}>29  COMMERCIAL GARAGES                      </option>
+    <option value="31  COMMERCIAL VACANT LAND                  " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '31  COMMERCIAL VACANT LAND                  ' else '' }}>31  COMMERCIAL VACANT LAND                  </option>
+    <option value="37  RELIGIOUS FACILITIES                    " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '37  RELIGIOUS FACILITIES                    ' else '' }}>37  RELIGIOUS FACILITIES                    </option>
+    <option value="05  TAX CLASS 1 VACANT LAND                 " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '05  TAX CLASS 1 VACANT LAND                 ' else '' }}>05  TAX CLASS 1 VACANT LAND                 </option>
+    <option value="10  COOPS - ELEVATOR APARTMENTS             " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '10  COOPS - ELEVATOR APARTMENTS             ' else '' }}>10  COOPS - ELEVATOR APARTMENTS             </option>
+    <option value="14  RENTALS - 4-10 UNIT                     " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '14  RENTALS - 4-10 UNIT                     ' else '' }}>14  RENTALS - 4-10 UNIT                     </option>
+    <option value="21  OFFICE BUILDINGS                        " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '21  OFFICE BUILDINGS                        ' else '' }}>21  OFFICE BUILDINGS                        </option>
+    <option value="30  WAREHOUSES                              " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '30  WAREHOUSES                              ' else '' }}>30  WAREHOUSES                              </option>
+    <option value="32  HOSPITAL AND HEALTH FACILITIES          " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '32  HOSPITAL AND HEALTH FACILITIES          ' else '' }}>32  HOSPITAL AND HEALTH FACILITIES          </option>
+    <option value="41  TAX CLASS 4 - OTHER                     " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '41  TAX CLASS 4 - OTHER                     ' else '' }}>41  TAX CLASS 4 - OTHER                     </option>
+    <option value="04  TAX CLASS 1 CONDOS                      " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '04  TAX CLASS 1 CONDOS                      ' else '' }}>04  TAX CLASS 1 CONDOS                      </option>
+    <option value="08  RENTALS - ELEVATOR APARTMENTS           " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '08  RENTALS - ELEVATOR APARTMENTS           ' else '' }}>08  RENTALS - ELEVATOR APARTMENTS           </option>
+    <option value="09  COOPS - WALKUP APARTMENTS               " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '09  COOPS - WALKUP APARTMENTS               ' else '' }}>09  COOPS - WALKUP APARTMENTS               </option>
+    <option value="28  COMMERCIAL CONDOS                       " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '28  COMMERCIAL CONDOS                       ' else '' }}>28  COMMERCIAL CONDOS                       </option>
+    <option value="12  CONDOS - WALKUP APARTMENTS              " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '12  CONDOS - WALKUP APARTMENTS              ' else '' }}>12  CONDOS - WALKUP APARTMENTS              </option>
+    <option value="27  FACTORIES                               " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '27  FACTORIES                               ' else '' }}>27  FACTORIES                               </option>
+    <option value="13  CONDOS - ELEVATOR APARTMENTS            " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '13  CONDOS - ELEVATOR APARTMENTS            ' else '' }}>13  CONDOS - ELEVATOR APARTMENTS            </option>
+    <option value="38  ASYLUMS AND HOMES                       " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '38  ASYLUMS AND HOMES                       ' else '' }}>38  ASYLUMS AND HOMES                       </option>
+    <option value="35  INDOOR PUBLIC AND CULTURAL FACILITIES   " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '35  INDOOR PUBLIC AND CULTURAL FACILITIES   ' else '' }}>35  INDOOR PUBLIC AND CULTURAL FACILITIES   </option>
+    <option value="33  EDUCATIONAL FACILITIES                  " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '33  EDUCATIONAL FACILITIES                  ' else '' }}>33  EDUCATIONAL FACILITIES                  </option>
+    <option value="15  CONDOS - 2-10 UNIT RESIDENTIAL          " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '15  CONDOS - 2-10 UNIT RESIDENTIAL          ' else '' }}>15  CONDOS - 2-10 UNIT RESIDENTIAL          </option>
+    <option value="06  TAX CLASS 1 - OTHER                     " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '06  TAX CLASS 1 - OTHER                     ' else '' }}>06  TAX CLASS 1 - OTHER                     </option>
+    <option value="17  CONDOPS                                 " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '17  CONDOPS                                 ' else '' }}>17  CONDOPS                                 </option>
+    <option value="18  TAX CLASS 3 - UTILITY PROPERTIES        " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '18  TAX CLASS 3 - UTILITY PROPERTIES        ' else '' }}>18  TAX CLASS 3 - UTILITY PROPERTIES        </option>
+    <option value="40  SELECTED GOVERNMENTAL FACILITIES        " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '40  SELECTED GOVERNMENTAL FACILITIES        ' else '' }}>40  SELECTED GOVERNMENTAL FACILITIES        </option>
+    <option value="16  CONDOS - 2-10 UNIT WITH COMMERCIAL UNIT " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '16  CONDOS - 2-10 UNIT WITH COMMERCIAL UNIT ' else '' }}>16  CONDOS - 2-10 UNIT WITH COMMERCIAL UNIT </option>
+    <option value="23  LOFT BUILDINGS                          " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '23  LOFT BUILDINGS                          ' else '' }}>23  LOFT BUILDINGS                          </option>
+    <option value="25  LUXURY HOTELS                           " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '25  LUXURY HOTELS                           ' else '' }}>25  LUXURY HOTELS                           </option>
+    <option value="36  OUTDOOR RECREATIONAL FACILITIES         " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '36  OUTDOOR RECREATIONAL FACILITIES         ' else '' }}>36  OUTDOOR RECREATIONAL FACILITIES         </option>
+    <option value="11A CONDO-RENTALS                           " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '11A CONDO-RENTALS                           ' else '' }}>11A CONDO-RENTALS                           </option>
+    <option value="39  TRANSPORTATION FACILITIES               " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '39  TRANSPORTATION FACILITIES               ' else '' }}>39  TRANSPORTATION FACILITIES               </option>
+    <option value="34  THEATRES                                " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '34  THEATRES                                ' else '' }}>34  THEATRES                                </option>
+    <option value="11  SPECIAL CONDO BILLING LOTS              " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '11  SPECIAL CONDO BILLING LOTS              ' else '' }}>11  SPECIAL CONDO BILLING LOTS              </option>
+    <option value="                                            " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '                                            ' else '' }}>                                            </option>
+    <option value="01  ONE FAMILY DWELLINGS                    " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '01  ONE FAMILY DWELLINGS                    ' else '' }}>01  ONE FAMILY DWELLINGS                    </option>
+    <option value="02  TWO FAMILY DWELLINGS                    " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '02  TWO FAMILY DWELLINGS                    ' else '' }}>02  TWO FAMILY DWELLINGS                    </option>
+    <option value="03  THREE FAMILY DWELLINGS                  " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '03  THREE FAMILY DWELLINGS                  ' else '' }}>03  THREE FAMILY DWELLINGS                  </option>
+    <option value="17  CONDO COOPS                             " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '17  CONDO COOPS                             ' else '' }}>17  CONDO COOPS                             </option>
+    <option value="46  CONDO STORE BUILDINGS                   " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '46  CONDO STORE BUILDINGS                   ' else '' }}>46  CONDO STORE BUILDINGS                   </option>
+    <option value="43  CONDO OFFICE BUILDINGS                  " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '43  CONDO OFFICE BUILDINGS                  ' else '' }}>43  CONDO OFFICE BUILDINGS                  </option>
+    <option value="44  CONDO PARKING                           " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '44  CONDO PARKING                           ' else '' }}>44  CONDO PARKING                           </option>
+    <option value="49  CONDO WAREHOUSES/FACTORY/INDUS          " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '49  CONDO WAREHOUSES/FACTORY/INDUS          ' else '' }}>49  CONDO WAREHOUSES/FACTORY/INDUS          </option>
+    <option value="42  CONDO CULTURAL/MEDICAL/EDUCATIONAL/ETC  " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '42  CONDO CULTURAL/MEDICAL/EDUCATIONAL/ETC  ' else '' }}>42  CONDO CULTURAL/MEDICAL/EDUCATIONAL/ETC  </option>
+    <option value="47  CONDO NON-BUSINESS STORAGE              " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '47  CONDO NON-BUSINESS STORAGE              ' else '' }}>47  CONDO NON-BUSINESS STORAGE              </option>
+    <option value="45  CONDO HOTELS                            " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '45  CONDO HOTELS                            ' else '' }}>45  CONDO HOTELS                            </option>
+    <option value="18  TAX CLASS 3 - UNTILITY PROPERTIES       " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '18  TAX CLASS 3 - UNTILITY PROPERTIES       ' else '' }}>18  TAX CLASS 3 - UNTILITY PROPERTIES       </option>
+    <option value="48  CONDO TERRACES/GARDENS/CABANAS          " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '48  CONDO TERRACES/GARDENS/CABANAS          ' else '' }}>48  CONDO TERRACES/GARDENS/CABANAS          </option>
+    <option value="27 FACTORIES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '27 FACTORIES' else '' }}>27 FACTORIES</option>
+    <option value="02 TWO FAMILY DWELLINGS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '02 TWO FAMILY DWELLINGS' else '' }}>02 TWO FAMILY DWELLINGS</option>
+    <option value="01 ONE FAMILY DWELLINGS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '01 ONE FAMILY DWELLINGS' else '' }}>01 ONE FAMILY DWELLINGS</option>
+    <option value="07 RENTALS - WALKUP APARTMENTS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '07 RENTALS - WALKUP APARTMENTS' else '' }}>07 RENTALS - WALKUP APARTMENTS</option>
+    <option value="21 OFFICE BUILDINGS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '21 OFFICE BUILDINGS' else '' }}>21 OFFICE BUILDINGS</option>
+    <option value="03 THREE FAMILY DWELLINGS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '03 THREE FAMILY DWELLINGS' else '' }}>03 THREE FAMILY DWELLINGS</option>
+    <option value="09 COOPS - WALKUP APARTMENTS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '09 COOPS - WALKUP APARTMENTS' else '' }}>09 COOPS - WALKUP APARTMENTS</option>
+    <option value="13 CONDOS - ELEVATOR APARTMENTS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '13 CONDOS - ELEVATOR APARTMENTS' else '' }}>13 CONDOS - ELEVATOR APARTMENTS</option>
+    <option value="35 INDOOR PUBLIC AND CULTURAL FACILITIES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '35 INDOOR PUBLIC AND CULTURAL FACILITIES' else '' }}>35 INDOOR PUBLIC AND CULTURAL FACILITIES</option>
+    <option value="30 WAREHOUSES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '30 WAREHOUSES' else '' }}>30 WAREHOUSES</option>
+    <option value="14 RENTALS - 4-10 UNIT" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '14 RENTALS - 4-10 UNIT' else '' }}>14 RENTALS - 4-10 UNIT</option>
+    <option value="22 STORE BUILDINGS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '22 STORE BUILDINGS' else '' }}>22 STORE BUILDINGS</option>
+    <option value="10 COOPS - ELEVATOR APARTMENTS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '10 COOPS - ELEVATOR APARTMENTS' else '' }}>10 COOPS - ELEVATOR APARTMENTS</option>
+    <option value="31 COMMERCIAL VACANT LAND" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '31 COMMERCIAL VACANT LAND' else '' }}>31 COMMERCIAL VACANT LAND</option>
+    <option value="06 TAX CLASS 1 - OTHER" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '06 TAX CLASS 1 - OTHER' else '' }}>06 TAX CLASS 1 - OTHER</option>
+    <option value="29 COMMERCIAL GARAGES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '29 COMMERCIAL GARAGES' else '' }}>29 COMMERCIAL GARAGES</option>
+    <option value="37 RELIGIOUS FACILITIES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '37 RELIGIOUS FACILITIES' else '' }}>37 RELIGIOUS FACILITIES</option>
+    <option value="32 HOSPITAL AND HEALTH FACILITIES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '32 HOSPITAL AND HEALTH FACILITIES' else '' }}>32 HOSPITAL AND HEALTH FACILITIES</option>
+    <option value="08 RENTALS - ELEVATOR APARTMENTS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '08 RENTALS - ELEVATOR APARTMENTS' else '' }}>08 RENTALS - ELEVATOR APARTMENTS</option>
+    <option value="38 ASYLUMS AND HOMES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '38 ASYLUMS AND HOMES' else '' }}>38 ASYLUMS AND HOMES</option>
+    <option value="15 CONDOS - 2-10 UNIT RESIDENTIAL" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '15 CONDOS - 2-10 UNIT RESIDENTIAL' else '' }}>15 CONDOS - 2-10 UNIT RESIDENTIAL</option>
+    <option value="12 CONDOS - WALKUP APARTMENTS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '12 CONDOS - WALKUP APARTMENTS' else '' }}>12 CONDOS - WALKUP APARTMENTS</option>
+    <option value="05 TAX CLASS 1 VACANT LAND" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '05 TAX CLASS 1 VACANT LAND' else '' }}>05 TAX CLASS 1 VACANT LAND</option>
+    <option value="23 LOFT BUILDINGS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '23 LOFT BUILDINGS' else '' }}>23 LOFT BUILDINGS</option>
+    <option value="26 OTHER HOTELS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '26 OTHER HOTELS' else '' }}>26 OTHER HOTELS</option>
+    <option value="33 EDUCATIONAL FACILITIES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '33 EDUCATIONAL FACILITIES' else '' }}>33 EDUCATIONAL FACILITIES</option>
+    <option value="41 TAX CLASS 4 - OTHER" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '41 TAX CLASS 4 - OTHER' else '' }}>41 TAX CLASS 4 - OTHER</option>
+    <option value="36 OUTDOOR RECREATIONAL FACILITIES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '36 OUTDOOR RECREATIONAL FACILITIES' else '' }}>36 OUTDOOR RECREATIONAL FACILITIES</option>
+    <option value="04 TAX CLASS 1 CONDOS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '04 TAX CLASS 1 CONDOS' else '' }}>04 TAX CLASS 1 CONDOS</option>
+    <option value="46 CONDO STORE BUILDINGS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '46 CONDO STORE BUILDINGS' else '' }}>46 CONDO STORE BUILDINGS</option>
+    <option value="43 CONDO OFFICE BUILDINGS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '43 CONDO OFFICE BUILDINGS' else '' }}>43 CONDO OFFICE BUILDINGS</option>
+    <option value="44 CONDO PARKING" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '44 CONDO PARKING' else '' }}>44 CONDO PARKING</option>
+    <option value="48 CONDO TERRACES/GARDENS/CABANAS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '48 CONDO TERRACES/GARDENS/CABANAS' else '' }}>48 CONDO TERRACES/GARDENS/CABANAS</option>
+    <option value="42 CONDO CULTURAL/MEDICAL/EDUCATIONAL/ETC" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '42 CONDO CULTURAL/MEDICAL/EDUCATIONAL/ETC' else '' }}>42 CONDO CULTURAL/MEDICAL/EDUCATIONAL/ETC</option>
+    <option value="34 THEATRES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '34 THEATRES' else '' }}>34 THEATRES</option>
+    <option value="16 CONDOS - 2-10 UNIT WITH COMMERCIAL UNIT" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '16 CONDOS - 2-10 UNIT WITH COMMERCIAL UNIT' else '' }}>16 CONDOS - 2-10 UNIT WITH COMMERCIAL UNIT</option>
+    <option value="17 CONDO COOPS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '17 CONDO COOPS' else '' }}>17 CONDO COOPS</option>
+    <option value="25 LUXURY HOTELS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '25 LUXURY HOTELS' else '' }}>25 LUXURY HOTELS</option>
+    <option value="28 COMMERCIAL CONDOS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '28 COMMERCIAL CONDOS' else '' }}>28 COMMERCIAL CONDOS</option>
+    <option value="45 CONDO HOTELS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '45 CONDO HOTELS' else '' }}>45 CONDO HOTELS</option>
+    <option value="47 CONDO NON-BUSINESS STORAGE" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '47 CONDO NON-BUSINESS STORAGE' else '' }}>47 CONDO NON-BUSINESS STORAGE</option>
+    <option value="39 TRANSPORTATION FACILITIES" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '39 TRANSPORTATION FACILITIES' else '' }}>39 TRANSPORTATION FACILITIES</option>
+    <option value="11 SPECIAL CONDO BILLING LOTS" {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '11 SPECIAL CONDO BILLING LOTS' else '' }}>11 SPECIAL CONDO BILLING LOTS</option>
+    <option value="24  TAX CLASS 4 - UTILITY BUREAU PROPERTIES " {{ 'selected' if params['BUILDING CLASS CATEGORY'] == '24  TAX CLASS 4 - UTILITY BUREAU PROPERTIES ' else '' }}>24  TAX CLASS 4 - UTILITY BUREAU PROPERTIES </option>
+  </select><br><br>
+  <label for="zip">Zip Code:</label>
+
+  {% if params %}
+  <input type="text" id="zip" name="zip" value="{{ params['ZIP CODE'] }}"><br><br>
+  {% else %}
+  <input type="text" id="zip" name="zip"><br><br>
+  {% endif %}
+
+  <label for="res">Number Residential Units:</label>
+
+  {% if params %}
+  <input type="text" id="res" name="res" value="{{ params['RESIDENTIAL_UNITS'] }}"><br><br>
+  {% else %}
+  <input type="text" id="res" name="res"><br><br>
+  {% endif %}
+
+  <label for="comm">Number Commercial Units:</label>
+
+  {% if params %}
+  <input type="text" id="comm" name="comm" value="{{ params['COMMERCIAL UNITS'] }}"><br><br>
+  {% else %}
+  <input type="text" id="comm" name="comm"><br><br>
+  {% endif %}
+
+  <label for="total">Total Units:</label>
+
+  {% if params %}
+  <input type="text" id="total" name="total" value="{{ params['TOTAL UNITS'] }}"><br><br>
+  {% else %}
+  <input type="text" id="total" name="total"><br><br>
+  {% endif %}
+
+  <label for="land">Land Square Feet:</label>
+
+  {% if params %}
+  <input type="text" id="land" name="land" value="{{ params['LAND_SQUARE_FEET'] }}"><br><br>
+  {% else %}
+  <input type="text" id="land" name="land"><br><br>
+  {% endif %}
+
+  <label for="gross">Gross Square Feet:</label>
+
+  {% if params %}
+  <input type="text" id="gross" name="gross" value="{{ params['GROSS_SQUARE_FEET'] }}"><br><br>
+  {% else %}
+  <input type="text" id="gross" name="gross"><br><br>
+  {% endif %}
+
+  <label for="year">Year Built:</label>
+
+  {% if params %}
+  <input type="text" id="year" name="year" value="{{ params['YEAR BUILT'] }}"><br><br>
+  {% else %}
+  <input type="text" id="year" name="year"><br><br>
+  {% endif %}
+
+  <label for="tax">Tax Class at Sale:</label>
+  <select id="tax" name="tax">
+    <option value="" {{ 'selected' if params['TAX CLASS AT TIME OF SALE'] == '' else '' }}>None</option>
+    <option value="1" {{ 'selected' if params['TAX CLASS AT TIME OF SALE'] == 1 else '' }}>1</option>
+    <option value="2" {{ 'selected' if params['TAX CLASS AT TIME OF SALE'] == 2 else '' }}>2</option>
+    <option value="3" {{ 'selected' if params['TAX CLASS AT TIME OF SALE'] == 3 else '' }}>3</option>
+    <option value="4" {{ 'selected' if params['TAX CLASS AT TIME OF SALE'] == 4 else '' }}>4</option>
+  </select><br><br>
+  <label for="bcsale">Building Class at Sale:</label>
+  <select id="bcsale" name="bcsale">
+    <option value="" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == '' else '' }}>None</option>
+    <option value="A5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A5' else '' }}>A5</option>
+    <option value="B2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'B2' else '' }}>B2</option>
+    <option value="B1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'B1' else '' }}>B1</option>
+    <option value="S2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'S2' else '' }}>S2</option>
+    <option value="C0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C0' else '' }}>C0</option>
+    <option value="C1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C1' else '' }}>C1</option>
+    <option value="K1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K1' else '' }}>K1</option>
+    <option value="H4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H4' else '' }}>H4</option>
+    <option value="G7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G7' else '' }}>G7</option>
+    <option value="V1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'V1' else '' }}>V1</option>
+    <option value="M9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'M9' else '' }}>M9</option>
+    <option value="S1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'S1' else '' }}>S1</option>
+    <option value="A1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A1' else '' }}>A1</option>
+    <option value="A2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A2' else '' }}>A2</option>
+    <option value="A0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A0' else '' }}>A0</option>
+    <option value="B9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'B9' else '' }}>B9</option>
+    <option value="B3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'B3' else '' }}>B3</option>
+    <option value="V0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'V0' else '' }}>V0</option>
+    <option value="C3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C3' else '' }}>C3</option>
+    <option value="D4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D4' else '' }}>D4</option>
+    <option value="S3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'S3' else '' }}>S3</option>
+    <option value="O9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O9' else '' }}>O9</option>
+    <option value="G8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G8' else '' }}>G8</option>
+    <option value="G2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G2' else '' }}>G2</option>
+    <option value="E1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'E1' else '' }}>E1</option>
+    <option value="I6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'I6' else '' }}>I6</option>
+    <option value="Z9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z9' else '' }}>Z9</option>
+    <option value="R3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R3' else '' }}>R3</option>
+    <option value="C2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C2' else '' }}>C2</option>
+    <option value="C5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C5' else '' }}>C5</option>
+    <option value="C7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C7' else '' }}>C7</option>
+    <option value="D1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D1' else '' }}>D1</option>
+    <option value="C6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C6' else '' }}>C6</option>
+    <option value="S9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'S9' else '' }}>S9</option>
+    <option value="O7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O7' else '' }}>O7</option>
+    <option value="K9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K9' else '' }}>K9</option>
+    <option value="R5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R5' else '' }}>R5</option>
+    <option value="G9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G9' else '' }}>G9</option>
+    <option value="G6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G6' else '' }}>G6</option>
+    <option value="R2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R2' else '' }}>R2</option>
+    <option value="F1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'F1' else '' }}>F1</option>
+    <option value="A9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A9' else '' }}>A9</option>
+    <option value="R4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R4' else '' }}>R4</option>
+    <option value="K7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K7' else '' }}>K7</option>
+    <option value="K4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K4' else '' }}>K4</option>
+    <option value="K5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K5' else '' }}>K5</option>
+    <option value="I9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'I9' else '' }}>I9</option>
+    <option value="N9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'N9' else '' }}>N9</option>
+    <option value="E4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'E4' else '' }}>E4</option>
+    <option value="P5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P5' else '' }}>P5</option>
+    <option value="D7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D7' else '' }}>D7</option>
+    <option value="O5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O5' else '' }}>O5</option>
+    <option value="A3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A3' else '' }}>A3</option>
+    <option value="K2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K2' else '' }}>K2</option>
+    <option value="V3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'V3' else '' }}>V3</option>
+    <option value="D6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D6' else '' }}>D6</option>
+    <option value="D3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D3' else '' }}>D3</option>
+    <option value="E3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'E3' else '' }}>E3</option>
+    <option value="F9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'F9' else '' }}>F9</option>
+    <option value="E9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'E9' else '' }}>E9</option>
+    <option value="C4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C4' else '' }}>C4</option>
+    <option value="W4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'W4' else '' }}>W4</option>
+    <option value="N2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'N2' else '' }}>N2</option>
+    <option value="S5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'S5' else '' }}>S5</option>
+    <option value="R1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R1' else '' }}>R1</option>
+    <option value="M1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'M1' else '' }}>M1</option>
+    <option value="W8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'W8' else '' }}>W8</option>
+    <option value="G5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G5' else '' }}>G5</option>
+    <option value="G0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G0' else '' }}>G0</option>
+    <option value="R9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R9' else '' }}>R9</option>
+    <option value="G1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G1' else '' }}>G1</option>
+    <option value="Z0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z0' else '' }}>Z0</option>
+    <option value="O8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O8' else '' }}>O8</option>
+    <option value="U4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U4' else '' }}>U4</option>
+    <option value="F4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'F4' else '' }}>F4</option>
+    <option value="A7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A7' else '' }}>A7</option>
+    <option value="A4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A4' else '' }}>A4</option>
+    <option value="S0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'S0' else '' }}>S0</option>
+    <option value="D9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D9' else '' }}>D9</option>
+    <option value="S4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'S4' else '' }}>S4</option>
+    <option value="M4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'M4' else '' }}>M4</option>
+    <option value="R6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R6' else '' }}>R6</option>
+    <option value="P9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P9' else '' }}>P9</option>
+    <option value="Y1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Y1' else '' }}>Y1</option>
+    <option value="R8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R8' else '' }}>R8</option>
+    <option value="F5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'F5' else '' }}>F5</option>
+    <option value="G4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G4' else '' }}>G4</option>
+    <option value="W2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'W2' else '' }}>W2</option>
+    <option value="W1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'W1' else '' }}>W1</option>
+    <option value="I3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'I3' else '' }}>I3</option>
+    <option value="L8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'L8' else '' }}>L8</option>
+    <option value="P6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P6' else '' }}>P6</option>
+    <option value="G3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'G3' else '' }}>G3</option>
+    <option value="E7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'E7' else '' }}>E7</option>
+    <option value="P8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P8' else '' }}>P8</option>
+    <option value="D5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D5' else '' }}>D5</option>
+    <option value="H2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H2' else '' }}>H2</option>
+    <option value="I5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'I5' else '' }}>I5</option>
+    <option value="N4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'N4' else '' }}>N4</option>
+    <option value="C9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C9' else '' }}>C9</option>
+    <option value="W9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'W9' else '' }}>W9</option>
+    <option value="O4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O4' else '' }}>O4</option>
+    <option value="H9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H9' else '' }}>H9</option>
+    <option value="C8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'C8' else '' }}>C8</option>
+    <option value="F2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'F2' else '' }}>F2</option>
+    <option value="D8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D8' else '' }}>D8</option>
+    <option value="D0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D0' else '' }}>D0</option>
+    <option value="O3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O3' else '' }}>O3</option>
+    <option value="L1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'L1' else '' }}>L1</option>
+    <option value="H3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H3' else '' }}>H3</option>
+    <option value="L9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'L9' else '' }}>L9</option>
+    <option value="O1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O1' else '' }}>O1</option>
+    <option value="O6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O6' else '' }}>O6</option>
+    <option value="D2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'D2' else '' }}>D2</option>
+    <option value="Q1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Q1' else '' }}>Q1</option>
+    <option value="RR" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RR' else '' }}>RR</option>
+    <option value="A6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A6' else '' }}>A6</option>
+    <option value="Y6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Y6' else '' }}>Y6</option>
+    <option value="W3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'W3' else '' }}>W3</option>
+    <option value="Z2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z2' else '' }}>Z2</option>
+    <option value="P2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P2' else '' }}>P2</option>
+    <option value="K6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K6' else '' }}>K6</option>
+    <option value="U5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U5' else '' }}>U5</option>
+    <option value="V2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'V2' else '' }}>V2</option>
+    <option value="T9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'T9' else '' }}>T9</option>
+    <option value="U8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U8' else '' }}>U8</option>
+    <option value="J1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J1' else '' }}>J1</option>
+    <option value="Q2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Q2' else '' }}>Q2</option>
+    <option value="M3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'M3' else '' }}>M3</option>
+    <option value="M2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'M2' else '' }}>M2</option>
+    <option value="O2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'O2' else '' }}>O2</option>
+    <option value="R7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R7' else '' }}>R7</option>
+    <option value="I1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'I1' else '' }}>I1</option>
+    <option value="U2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U2' else '' }}>U2</option>
+    <option value="Z4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z4' else '' }}>Z4</option>
+    <option value="V9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'V9' else '' }}>V9</option>
+    <option value="J8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J8' else '' }}>J8</option>
+    <option value="R0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'R0' else '' }}>R0</option>
+    <option value="U6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U6' else '' }}>U6</option>
+    <option value="Q9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Q9' else '' }}>Q9</option>
+    <option value="I7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'I7' else '' }}>I7</option>
+    <option value="U9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U9' else '' }}>U9</option>
+    <option value="I4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'I4' else '' }}>I4</option>
+    <option value="Y2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Y2' else '' }}>Y2</option>
+    <option value="Z3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z3' else '' }}>Z3</option>
+    <option value="L2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'L2' else '' }}>L2</option>
+    <option value="L3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'L3' else '' }}>L3</option>
+    <option value="H6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H6' else '' }}>H6</option>
+    <option value="W7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'W7' else '' }}>W7</option>
+    <option value="J4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J4' else '' }}>J4</option>
+    <option value="K3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K3' else '' }}>K3</option>
+    <option value="P7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P7' else '' }}>P7</option>
+    <option value="T2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'T2' else '' }}>T2</option>
+    <option value="Y4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Y4' else '' }}>Y4</option>
+    <option value="H8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H8' else '' }}>H8</option>
+    <option value="U7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U7' else '' }}>U7</option>
+    <option value="RB" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RB' else '' }}>RB</option>
+    <option value="Q7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Q7' else '' }}>Q7</option>
+    <option value="RK" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RK' else '' }}>RK</option>
+    <option value="RG" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RG' else '' }}>RG</option>
+    <option value="RA" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RA' else '' }}>RA</option>
+    <option value="RH" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RH' else '' }}>RH</option>
+    <option value="H5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H5' else '' }}>H5</option>
+    <option value="RS" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RS' else '' }}>RS</option>
+    <option value="P3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P3' else '' }}>P3</option>
+    <option value="RW" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RW' else '' }}>RW</option>
+    <option value="F8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'F8' else '' }}>F8</option>
+    <option value="RP" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RP' else '' }}>RP</option>
+    <option value="Z7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z7' else '' }}>Z7</option>
+    <option value="J9" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J9' else '' }}>J9</option>
+    <option value="Q8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Q8' else '' }}>Q8</option>
+    <option value="J2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J2' else '' }}>J2</option>
+    <option value="Y3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Y3' else '' }}>Y3</option>
+    <option value="I2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'I2' else '' }}>I2</option>
+    <option value="J6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J6' else '' }}>J6</option>
+    <option value="N3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'N3' else '' }}>N3</option>
+    <option value="RT" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'RT' else '' }}>RT</option>
+    <option value="HR" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'HR' else '' }}>HR</option>
+    <option value="J5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J5' else '' }}>J5</option>
+    <option value="Z8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z8' else '' }}>Z8</option>
+    <option value="GW" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'GW' else '' }}>GW</option>
+    <option value="A8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'A8' else '' }}>A8</option>
+    <option value="GU" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'GU' else '' }}>GU</option>
+    <option value="E2" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'E2' else '' }}>E2</option>
+    <option value="V5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'V5' else '' }}>V5</option>
+    <option value="W6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'W6' else '' }}>W6</option>
+    <option value="Q6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Q6' else '' }}>Q6</option>
+    <option value="K8" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'K8' else '' }}>K8</option>
+    <option value="N1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'N1' else '' }}>N1</option>
+    <option value="P1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P1' else '' }}>P1</option>
+    <option value="H7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H7' else '' }}>H7</option>
+    <option value="Z5" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z5' else '' }}>Z5</option>
+    <option value="H1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'H1' else '' }}>H1</option>
+    <option value="P4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'P4' else '' }}>P4</option>
+    <option value="Q3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Q3' else '' }}>Q3</option>
+    <option value="Z1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z1' else '' }}>Z1</option>
+    <option value="T1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'T1' else '' }}>T1</option>
+    <option value="U0" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U0' else '' }}>U0</option>
+    <option value="J3" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J3' else '' }}>J3</option>
+    <option value="Z6" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'Z6' else '' }}>Z6</option>
+    <option value="V4" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'V4' else '' }}>V4</option>
+    <option value="U1" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'U1' else '' }}>U1</option>
+    <option value="J7" {{ 'selected' if params['BUILDING CLASS AT TIME OF SALE'] == 'J7' else '' }}>J7</option>
+  </select><br><br>
+  <label for="saledate">Sale Date:</label>
+
+  {% if params %}
+  <input type="date" id="saledate" name="saledate" value="{{ params['SALE DATE'] }}"><br><br>
+  {% else %}
+  <input type="date" id="saledate" name="saledate"><br><br>
+  {% endif %}
+
+  <input type="submit" value="Submit">
+</form>
