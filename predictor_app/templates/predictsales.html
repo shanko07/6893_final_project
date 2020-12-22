@@ -1,6 +1,6 @@
 <!doctype html>
 <title>Sale Price Predictor</title>
-<p>Predicted sale price is {{ pred_price if pred_price else '' }}</p>
+<p>Predicted sale price is {{ "$%.0f"|format(pred_price) if pred_price else '' }}</p>
 <form method="post" id="prediction_form">
   <label for="borough">Borough:</label>
   <select id="borough" name="borough">
