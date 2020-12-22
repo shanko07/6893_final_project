@@ -14,6 +14,11 @@ from sklearn.ensemble import RandomForestRegressor
 import pymysql.cursors
 from datetime import datetime
 
+loaded_rf = joblib.load("whole_dataset.joblib")
+needed_cols = None
+with open('model_cols', 'rb') as fp:
+    needed_cols = pickle.load(fp)
+
 ### API STUFF
 
 @app.route('/api/v1/predictsale', methods=['GET'])
@@ -40,11 +45,6 @@ def api_predictsale():
         for k in params_supplied:
             if k not in param_names:
                 return Response(json.dumps({'reason':f'illegal prediction param {k}'}), status=404, mimetype='application/json')
-
-
-        loaded_rf = joblib.load("whole_dataset.joblib")
-        with open ('model_cols', 'rb') as fp:
-            needed_cols = pickle.load(fp)
 
         query_dict = {name:[params_supplied[name]] for name in params_supplied}
 
@@ -78,14 +78,9 @@ def api_predictsale():
                     query_dict[name] = measure
         finally:
             connection.close()
-            
+
         if type(query_dict['SALE DATE']) == datetime:
             query_dict['SALE DATE'] = [query_dict['SALE DATE'].strftime("%m-%d-%Y %H:%M:%S")]
-
-        # spin up the model and do prediction
-        with open ('model_cols', 'rb') as fp:
-            needed_cols = pickle.load(fp)
-
 
         max_date = pd.to_datetime('2019-12-31 00:00:00')
         query_df = pd.DataFrame.from_dict(query_dict)
