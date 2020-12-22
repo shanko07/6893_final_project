@@ -1,0 +1,4 @@
+- move up one directory
+- add Model_D50_N25/whole_dataset.joblib and Model_D50_N25/model_cols to the models directory (they are too big to store in github)
+- run `docker build -t 6893app:v1 -f Dockerfile_Backend .`
+- run `docker run -d -p 127.0.0.1:8456:5000 --restart unless-stopped 6893app:v1`
