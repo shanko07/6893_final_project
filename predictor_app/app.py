@@ -13,7 +13,7 @@ import requests
 def predict_sales():
     if request.method == 'POST':
         print(request.form['borough'])
-        url = "http://6893.stephenshanko.com/api/v1/predictsale"
+        url = "https://6893.stephenshanko.com/api/v1/predictsale"
 
         params = {"BOROUGH": request.form['borough'],
              "BUILDING CLASS CATEGORY": request.form['bcc'],
